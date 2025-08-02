@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>ATM Interface - Net Bank</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+  <style>
+    body {
+      background: linear-gradient(to right, #d9e4f5, #f5fafd);
+      font-family: 'Segoe UI', sans-serif;
+      padding-top: 50px;
+    }
+    .atm-container {
+      max-width: 500px;
+      margin: auto;
+      padding: 30px;
+      background-color: white;
+      border-radius: 15px;
+      box-shadow: 0 8px 30px rgba(0,0,0,0.1);
+    }
+    .atm-title {
+      text-align: center;
+      font-size: 26px;
+      font-weight: bold;
+      color: #0056b3;
+      margin-bottom: 20px;
+    }
+    .atm-screen {
+      background-color: #e9f0f7;
+      padding: 20px;
+      border-radius: 10px;
+      min-height: 100px;
+      color: #333;
+      margin-bottom: 20px;
+      white-space: pre-line;
+    }
+    .atm-btn {
+      width: 100%;
+      margin-bottom: 10px;
+      font-weight: 500;
+    }
+    .modal-body input {
+      width: 100%;
+      padding: 8px;
+      margin-top: 10px;
+    }
+    .modal-content {
+  border-radius: 1rem;
+  border: none;
+}
+
+.modal-header {
+  border-bottom: none;
+}
+
+.modal-footer {
+  border-top: none;
+}
+
+input[type="number"]::placeholder {
+  color: #aaa;
+  font-style: italic;
+}
+.modal-header{
+    background-color:  linear-gradient(to right, #000000, #ff8c00);
+}
+#thank-you-message h2 {
+  animation: fadeIn 1s ease-in-out forwards;
+}
+
+@keyframes fadeIn {
+  0% { opacity: 0; transform: scale(0.95); }
+  100% { opacity: 1; transform: scale(1); }
+}
+
+
+  </style>
+</head>
+<body>
+
+<div class="atm-container">
+  <div class="atm-title">💳 Welcome to Net Bank ATM</div>
+  <div id="atm-screen" class="atm-screen">Please select an option.</div>
+
+  <button class="btn btn-outline-primary atm-btn" onclick="checkBalance()">Check Balance</button>
+  <button class="btn btn-outline-success atm-btn" data-bs-toggle="modal" data-bs-target="#depositModal">Deposit</button>
+  <button class="btn btn-outline-warning atm-btn" data-bs-toggle="modal" data-bs-target="#withdrawModal">Withdraw</button>
+  <button class="btn btn-outline-danger atm-btn" onclick="exitATM()">Exit</button>
+  <div id="thank-you-message" class="text-center mt-4 d-none">
+  <h2 class="display-5 fw-bold text-success">🎉 Thank You!</h2>
+  <p class="fs-4 text-secondary">Your transaction is complete.</p>
+  
+</div>
+</div>
+
+<!-- Deposit Modal -->
+<!-- Deposit Modal -->
+<div class="modal fade" id="depositModal" tabindex="-1" aria-labelledby="depositModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content shadow-lg border-0 rounded-4">
+      <div class="modal-header bg-success text-white rounded-top-4">
+        <h5 class="modal-title">💰 Deposit Funds</h5>
+        <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body py-4">
+        <label for="depositAmount" class="form-label">Enter amount to deposit</label>
+        <input type="number" id="depositAmount" class="form-control form-control-lg rounded-3 shadow-sm" placeholder="e.g. 5000">
+      </div>
+      <div class="modal-footer">
+        <button class="btn btn-success w-100 rounded-pill py-2" onclick="confirmDeposit()">Deposit</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<!-- Withdraw Modal -->
+<!-- Withdraw Modal -->
+<div class="modal fade" id="withdrawModal" tabindex="-1" aria-labelledby="withdrawModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content shadow-lg border-0 rounded-4">
+      <div class="modal-header bg-warning text-dark rounded-top-4">
+        <h5 class="modal-title">🏧 Withdraw Cash</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body py-4">
+        <label for="withdrawAmount" class="form-label">Enter amount to withdraw</label>
+        <input type="number" id="withdrawAmount" class="form-control form-control-lg rounded-3 shadow-sm" placeholder="e.g. 1000">
+      </div>
+      <div class="modal-footer">
+        <button class="btn btn-warning w-100 rounded-pill py-2" onclick="confirmWithdraw()">Withdraw</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Bootstrap Bundle -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+
+<script>
+  let balance = 15000;
+
+  function updateScreen(message) {
+    document.getElementById('atm-screen').innerText = message;
+  }
+
+  function checkBalance() {
+    updateScreen("Your current balance is ₹" + balance);
+  }
+
+  function confirmDeposit() {
+    const amount = parseInt(document.getElementById("depositAmount").value);
+    const modal = bootstrap.Modal.getInstance(document.getElementById("depositModal"));
+    if (!isNaN(amount) && amount > 0) {
+      balance += amount;
+      updateScreen("₹" + amount + " deposited successfully.\nNew Balance: ₹" + balance);
+    } else {
+      updateScreen("Invalid deposit amount.");
+    }
+    modal.hide();
+  }
+
+  function confirmWithdraw() {
+    const amount = parseInt(document.getElementById("withdrawAmount").value);
+    const modal = bootstrap.Modal.getInstance(document.getElementById("withdrawModal"));
+    if (!isNaN(amount) && amount > 0) {
+      if (amount <= balance) {
+        balance -= amount;
+        updateScreen("₹" + amount + " withdrawn successfully.\nRemaining Balance: ₹" + balance);
+      } else {
+        updateScreen("Insufficient balance.");
+      }
+    } else {
+      updateScreen("Invalid withdrawal amount.");
+    }
+    modal.hide();
+  }
+
+  function exitATM() {
+  document.querySelector(".atm-screen").classList.add("d-none");
+  document.querySelectorAll(".atm-btn").forEach(btn => btn.classList.add("d-none"));
+  document.getElementById("thank-you-message").classList.remove("d-none");
+
+  // Redirect after 3 seconds
+  setTimeout(() => {
+    window.location.href = "/";  // hardcoded to dashboard route
+  }, 3000);
+}
+
+</script>
+
+</body>
+</html>
