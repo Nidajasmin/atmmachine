@@ -2,9 +2,10 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <title>{% if user %}Edit Bank User{% else %}Bank User Registration{% endif %}</title>
+  <title>Edit Bank User</title>
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/intl-tel-input/17.0.8/css/intlTelInput.min.css" />
   <style>
     body {
       background: linear-gradient(to right, #e0eafc, #cfdef3);
@@ -12,6 +13,7 @@
       padding: 30px 0;
       font-family: 'Segoe UI', sans-serif;
     }
+
     .registration-container {
       max-width: 1000px;
       margin: auto;
@@ -20,8 +22,9 @@
       box-shadow: 0 12px 30px rgba(0, 0, 0, 0.1);
       overflow: hidden;
     }
+
     .registration-header {
-      background: linear-gradient(to right, #000000, #ff8c00);
+      background:  #0d67c7;
       color: #fff;
       padding: 1.5rem;
       text-align: center;
@@ -29,69 +32,70 @@
       font-weight: 600;
       letter-spacing: 1px;
     }
+
     .registration-body {
       padding: 2rem;
     }
+
     table.table td, table.table th {
       vertical-align: middle;
       padding: 10px 12px;
     }
+
     .form-control, .input-group-text {
       width: 100%;
       font-size: 0.9rem;
     }
+
     label.form-label {
       margin-bottom: 0.4rem;
       font-size: 0.85rem;
       font-weight: 600;
     }
-    .form-label {
-      font-weight: 600;
-      font-size: 0.9rem;
-      margin-bottom: 0.4rem;
-      color: #212529;
-    }
-    .form-control {
-      font-size: 0.9rem;
-      padding: 0.45rem 0.75rem;
-      border-radius: 0.45rem;
-    }
+
     .text-danger {
       font-size: 0.8rem;
       margin-top: 0.25rem;
     }
-    .btn-cancel, .btn-submit {
+
+    .btn-cancel, .btn-update {
       padding: 0.5rem 1.5rem;
       font-size: 0.95rem;
       font-weight: 500;
       border-radius: 8px;
     }
+
     .btn-cancel {
       background-color: #6c757d;
       color: #fff;
     }
-    .btn-submit {
-      background-color: #198754;
-      color: #fff;
+
+    .btn-warning {
+      background: #007bff;
+      border: none;
+      color: white;
     }
+
+    .btn-dark {
+      background-color: #343a40;
+    }
+
     @media (max-width: 768px) {
       .col-md-6 {
         width: 100%;
       }
     }
-    .btn-warning {
-      background: linear-gradient(to right, #ff8c00, #ffb84d);
-      border: none;
-    }
-    .btn-dark {
-      background-color: #343a40;
+
+    .table td {
+      padding: 12px;
+      vertical-align: middle;
     }
   </style>
 </head>
 <body>
 <div class="registration-container">
   <div class="registration-header">
-    {% if user %} ✏️ Edit Bank User {% else %} 🏦 Bank User Registration {% endif %}
+    ✏️ Edit Bank User
   </div>
 
   <form method="post" enctype="multipart/form-data">
@@ -100,49 +104,89 @@
       <table class="table table-bordered align-middle">
         <tbody>
         {% for field in form %}
-          {% if forloop.counter0|divisibleby:2 %}
-          <tr>
-            <td style="width: 20%;">
-              <label class="form-label" for="{{ field.id_for_label }}">{{ field.label }}</label>
-            </td>
-            <td style="width: 30%;">
-              {{ field }}
-              {% if field.errors %}
-              <div class="text-danger">
-                {% for error in field.errors %}{{ error }}{% endfor %}
-              </div>
-              {% endif %}
-            </td>
-          {% else %}
-            <td style="width: 20%;">
-              <label class="form-label" for="{{ field.id_for_label }}">{{ field.label }}</label>
-            </td>
-            <td style="width: 30%;">
-              {{ field }}
-              {% if field.errors %}
-              <div class="text-danger">
-                {% for error in field.errors %}{{ error }}{% endfor %}
-              </div>
-              {% endif %}
-            </td>
-          </tr>
-          <tr>
+          {% if field.name != "photo" and field.name != "balance" %}
+            {% if forloop.counter0|divisibleby:2 %}
+            <tr>
+              <td style="width: 20%;"><label class="form-label" for="{{ field.id_for_label }}">{{ field.label }}</label></td>
+              <td style="width: 30%;">
+                {{ field }}
+                {% if field.errors %}
+                <div class="text-danger">
+                  {% for error in field.errors %}{{ error }}{% endfor %}
+                </div>
+                {% endif %}
+              </td>
+            {% else %}
+              <td style="width: 20%;"><label class="form-label" for="{{ field.id_for_label }}">{{ field.label }}</label></td>
+              <td style="width: 30%;">
+                {{ field }}
+                {% if field.errors %}
+                <div class="text-danger">
+                  {% for error in field.errors %}{{ error }}{% endfor %}
+                </div>
+                {% endif %}
+              </td>
+            </tr>
+            {% endif %}
           {% endif %}
         {% endfor %}
-        {% if form|length|divisibleby:2 == False %}
-          <td colspan="2"></td></tr>
-        {% endif %}
-        <td colspan="2" class="text-end pe-3">
-          <a href="{% url 'user_list' %}" class="btn btn-dark px-4 me-2">Cancel</a>
-          <button type="submit" class="btn btn-warning text-white px-4 btn-submit">
-            {% if user %}Update{% else %}Register{% endif %}
-          </button>
-        </td>
+
+        <!-- Photo and Balance in one row -->
+        <tr>
+          <td><label class="form-label" for="{{ form.photo.id_for_label }}">{{ form.photo.label }}</label></td>
+          <td>
+            {{ form.photo }}
+            {% if form.photo.errors %}
+            <div class="text-danger">
+              {% for error in form.photo.errors %}{{ error }}{% endfor %}
+            </div>
+            {% endif %}
+          </td>
+          <td><label class="form-label" for="{{ form.balance.id_for_label }}">{{ form.balance.label }}</label></td>
+          <td>
+            {{ form.balance }}
+            {% if form.balance.errors %}
+            <div class="text-danger">
+              {% for error in form.balance.errors %}{{ error }}{% endfor %}
+            </div>
+            {% endif %}
+          </td>
         </tr>
+
+        <!-- Button Row -->
+        <tr>
+          <td colspan="4" class="text-end">
+            <a href="{% url 'user_list' %}" class="btn btn-dark px-4 me-2">Cancel</a>
+            <button type="submit" class="btn btn-warning px-4">Update</button>
+          </td>
+        </tr>
+
         </tbody>
       </table>
     </div>
   </form>
 </div>
+
+<!-- JS for international number formatting -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/intl-tel-input/17.0.8/js/intlTelInput.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/intl-tel-input/17.0.8/js/utils.js"></script>
+<script>
+  document.addEventListener("DOMContentLoaded", function () {
+    const input = document.querySelector("#id_Contact_number");
+    if (!input) return;
+
+    const iti = window.intlTelInput(input, {
+      initialCountry: "in",
+      separateDialCode: true,
+      preferredCountries: ["in", "us", "gb", "ae", "fr", "de"],
+      utilsScript: "https://cdnjs.cloudflare.com/ajax/libs/intl-tel-input/17.0.8/js/utils.js"
+    });
+
+    const form = document.querySelector("form");
+    form.addEventListener("submit", function () {
+      input.value = iti.getNumber();
+    });
+  });
+</script>
 </body>
 </html>

@@ -76,3 +76,34 @@ class BankUserForm(forms.ModelForm):
         if not phone.startswith('+') or not phone[1:].isdigit():
             raise forms.ValidationError("Enter a valid international mobile number.")
         return phone
+    
+
+
+class ATMAuthForm(forms.Form):
+    card_number = forms.CharField(max_length=16, label="Card Number")
+    card_pin = forms.CharField(widget=forms.PasswordInput(), max_length=6, label="ATM PIN")
+
+    def clean(self):
+        cleaned_data = super().clean()
+        card_number = cleaned_data.get("card_number")
+        card_pin = cleaned_data.get("card_pin")
+
+        if not card_number or not card_pin:
+            return
+
+        try:
+            user = BankUser.objects.get(card_number=card_number)
+        except BankUser.DoesNotExist:
+            self.add_error('card_number', 'Invalid card number')
+            return
+
+        if user.card_pin != card_pin:
+            self.add_error('card_pin', 'Incorrect PIN')
+
+class TransactionForm(forms.Form):
+    amount = forms.FloatField(min_value=1, widget=forms.NumberInput(attrs={
+        'class': 'form-control',
+        'placeholder': 'Enter amount'
+    }))
+
+

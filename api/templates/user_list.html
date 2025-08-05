@@ -1,124 +1,187 @@
+{% load static %}
 <!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <title>Registered Users - ABC Bank</title>
+  <title>Registered Users - Net Bank</title>
   <meta name="viewport" content="width=device-width, initial-scale=1">
 
-  <!-- Bootstrap -->
+  <!-- Bootstrap & Icons -->
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css">
 
   <style>
     body {
-      background: linear-gradient(to right, #f5f7fa, #c3cfe2);
+      background: linear-gradient(to right, #e0f0ff, #ffffff);
       font-family: 'Segoe UI', sans-serif;
+      min-height: 100vh;
+      padding-top: 40px;
     }
+
     .container {
-      margin-top: 60px;
       background: #fff;
-      padding: 30px;
       border-radius: 12px;
-      box-shadow: 0 8px 24px rgba(0, 0, 0, 0.1);
+      padding: 30px;
+      box-shadow: 0 8px 30px rgba(0, 0, 0, 0.08);
+      max-width: 1200px;
     }
+
+    .header-icon {
+      font-size: 2rem;
+      color: #0d67c7;
+    }
+
+    .page-title {
+      font-weight: 600;
+      font-size: 1.8rem;
+      margin-bottom: 10px;
+      color: #004080;
+    }
+
     .table thead {
-      background-color: #007bff;
-      color: white;
-      text-align: center;
+      background-color: #004080;
+      color: #fff;
     }
-    .table tbody td {
+
+    .table th, .table td {
       vertical-align: middle;
       text-align: center;
+      font-size: 0.95rem;
     }
-    .heading-icon {
-      font-size: 32px;
-      color: #007bff;
-    }
-    .btn-back {
-      font-weight: 500;
-      padding: 10px 20px;
-    }
+
     .user-photo {
       width: 50px;
       height: 50px;
       object-fit: cover;
       border-radius: 50%;
-      border: 2px solid #ccc;
+      border: 2px solid #ddd;
     }
+
+    .btn-edit, .btn-delete {
+      padding: 5px 10px;
+      font-size: 0.85rem;
+    }
+
+    .btn-edit {
+      color: #198754;
+      border: 1px solid #198754;
+    }
+
+    .btn-edit:hover {
+      background-color: #198754;
+      color: white;
+    }
+
+    .btn-delete {
+      color: #dc3545;
+      border: 1px solid #dc3545;
+      margin-left: 6px;
+    }
+
+    .btn-delete:hover {
+      background-color: #dc3545;
+      color: white;
+    }
+
+    .btn-back {
+      background-color: #0d67c7;
+      color: white;
+      border: none;
+      padding: 10px 20px;
+      border-radius: 8px;
+      font-weight: 500;
+      transition: background-color 0.3s ease;
+    }
+
+    .btn-back:hover {
+      background-color: #094f98;
+    }
+
+    .alert {
+      font-size: 0.95rem;
+    }
+
     @media (max-width: 768px) {
-      .table thead {
-        font-size: 12px;
+      .table th, .table td {
+        font-size: 0.85rem;
       }
-      .table tbody td {
-        font-size: 13px;
+
+      .btn-back {
+        width: 100%;
       }
     }
+    .btn-sm i {
+  font-size: 1rem;
+}
+
   </style>
 </head>
 <body>
-  <div class="container">
-    <div class="text-center mb-4">
-      <div class="heading-icon">🏦</div>
-      <h3 class="mt-2">Registered Bank Users</h3>
-      <p class="text-muted">Complete details of all registered users</p>
-    </div>
-
-    {% if messages %}
-      {% for message in messages %}
-        <div class="alert alert-{{ message.tags }} alert-dismissible fade show" role="alert">
-          {{ message }}
-          <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-        </div>
-      {% endfor %}
-    {% endif %}
-
-    <div class="table-responsive">
-      <table class="table table-bordered table-hover align-middle">
-        <thead>
-          <tr>
-            <th>Profile</th>
-            <th>Joined Date</th>
-            <th>Full Name</th>
-            <th>DOB</th>
-            <th>Contact</th>
-            <th>Email</th>
-            <th>Actions</th>
-            
-          </tr>
-        </thead>
-        <tbody>
-          {% for user in users %}
-            <tr>       
-            <td>
-        {% if user.photo %}
-       <img src="{{ user.photo.url }}" class="user-photo" alt="User Photo">
-        {% else %}
-         N/A
-        {% endif %}
-              </td>
-              <td>{{ user.date }}</td>
-              <td>{{ user.first_name }} {{ user.last_name }}</td>
-              <td>{{ user.dob }}</td>
-              <td>{{ user.Contact_number }}</td>
-              <td>{{ user.email }}</td>
-              <td>
-              <a href="{% url 'edit_user' user.id %}" class="btn btn-sm btn-success">Edit</a>
-              </td>
-
-        
-
-            </tr>
-          {% empty %}
-            <tr>
-              <td colspan="13" class="text-center text-danger fw-bold">No users registered yet.</td>
-            </tr>
-          {% endfor %}
-        </tbody>
-      </table>
-    </div>
-
-    <div class="text-center mt-4">
-      <a href="{% url 'dashboard' %}" class="btn btn-secondary btn-warning">⬅ Back to Dashboard</a>
-    </div>
+<div class="container">
+  <div class="text-center mb-4">
+    <div class="header-icon mb-2">🏦</div>
+    <div class="page-title">Registered Bank Users</div>
+    <p class="text-muted">List of all users who have registered at Net Bank</p>
   </div>
+
+  {% if messages %}
+    {% for message in messages %}
+      <div class="alert alert-{{ message.tags }} alert-dismissible fade show" role="alert">
+        {{ message }}
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+      </div>
+    {% endfor %}
+  {% endif %}
+
+  <div class="table-responsive">
+    <table class="table table-bordered table-hover align-middle">
+      <thead>
+        <tr>
+          <th>Profile</th>
+          <th>Joined</th>
+          <th>Full Name</th>
+          <th>DOB</th>
+          <th>Contact</th>
+          <th>Email</th>
+          <th>Actions</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for user in users %}
+          <tr>
+            <td>
+              {% if user.photo %}
+                <img src="{{ user.photo.url }}" class="user-photo" alt="User Photo">
+              {% else %}
+                <span class="text-muted">N/A</span>
+              {% endif %}
+            </td>
+            <td>{{ user.date }}</td>
+            <td>{{ user.first_name }} {{ user.last_name }}</td>
+            <td>{{ user.dob }}</td>
+            <td>{{ user.Contact_number }}</td>
+            <td>{{ user.email }}</td>
+            <td>
+               
+  <a href="{% url 'user_profile' user.id %}" class="btn btn-sm btn-success" title="Profile">
+    <i class="bi bi-person-lines-fill"></i>
+  </a>
+  
+</td>
+
+          </tr>
+        {% empty %}
+          <tr>
+            <td colspan="7" class="text-center text-danger fw-bold">No users registered yet.</td>
+          </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+
+  <div class="text-center mt-4">
+    <a href="{% url 'dashboard' %}" class="btn btn-back">⬅ Back to Dashboard</a>
+  </div>
+</div>
 </body>
 </html>

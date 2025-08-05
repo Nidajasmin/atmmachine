@@ -39,7 +39,11 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'rest_framework',
     'api'
+   
 ]
+
+
+
 import os
 
 # Add at the end of settings.py

@@ -1,0 +1,129 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Balance Enquiry - Net Bank ATM</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  <!-- Bootstrap & Icons -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css" rel="stylesheet">
+
+  <style>
+    body {
+      margin: 0;
+      padding: 0;
+      background: linear-gradient(135deg, #e6f0ff, #ffffff);
+      font-family: 'Segoe UI', sans-serif;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      min-height: 100vh;
+    }
+
+    .balance-wrapper {
+      width: 100%;
+      max-width: 520px;
+      background: #fff;
+      border-radius: 20px;
+      padding: 40px 30px;
+      box-shadow: 0 12px 30px rgba(0, 0, 0, 0.08);
+      text-align: center;
+      animation: fadeIn 0.5s ease-in-out;
+    }
+
+    .balance-wrapper h2 {
+      font-size: 1.6rem;
+      font-weight: 700;
+      margin-bottom: 15px;
+      color: #1e3a8a;
+    }
+
+    .balance-wrapper p {
+      font-size: 1rem;
+      color: #555;
+      margin-bottom: 30px;
+    }
+
+    .balance-wrapper .balance-amount {
+      font-size: 2.8rem;
+      font-weight: bold;
+      color: #28a745;
+      margin-bottom: 30px;
+    }
+
+    .balance-buttons {
+      display: flex;
+      flex-direction: column;
+      gap: 15px;
+    }
+
+    .balance-buttons a {
+      display: block;
+      text-decoration: none;
+      padding: 14px;
+      font-size: 1rem;
+      font-weight: 500;
+      color: #fff;
+      border-radius: 10px;
+      transition: background-color 0.3s ease;
+    }
+
+    .balance-buttons a:first-child {
+      background: #0d47a1;
+    }
+
+    .balance-buttons a:first-child:hover {
+      background: #0b3b8a;
+    }
+
+    .balance-buttons a:last-child {
+      background: #dc3545;
+    }
+
+    .balance-buttons a:last-child:hover {
+      background: #b02a37;
+    }
+
+    @keyframes fadeIn {
+      from {
+        opacity: 0;
+        transform: translateY(20px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    @media (max-width: 576px) {
+      .balance-wrapper {
+        padding: 30px 20px;
+      }
+
+      .balance-wrapper .balance-amount {
+        font-size: 2.2rem;
+      }
+
+      .balance-buttons a {
+        font-size: 0.95rem;
+      }
+    }
+  </style>
+</head>
+<body>
+
+<div class="balance-wrapper">
+  <h2><i class="bi bi-cash-stack me-2"></i>Balance Enquiry</h2>
+  <p>Hello! Here's your available account balance:</p>
+  <div class="balance-amount">₹ {{ balance }}</div>
+
+  <div class="balance-buttons">
+    <a href="{% url 'atm_menu' %}"><i class="bi bi-arrow-left me-1"></i> Back to Menu</a>
+    <a href="{% url 'thank_you' %}"><i class="bi bi-box-arrow-right me-1"></i> Exit ATM</a>
+  </div>
+</div>
+
+</body>
+</html>

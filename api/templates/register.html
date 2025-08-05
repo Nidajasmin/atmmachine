@@ -24,7 +24,7 @@
     }
 
     .registration-header {
-      background: linear-gradient(to right, #000000, #ff8c00);
+      background:  #0d67c7;
       color: #fff;
       padding: 1.5rem;
       text-align: center;
@@ -53,29 +53,9 @@
       font-weight: 600;
     }
 
-    .form-label {
-      font-weight: 600;
-      font-size: 0.9rem;
-      margin-bottom: 0.4rem;
-      color: #212529;
-    }
-
-    .form-control {
-      font-size: 0.9rem;
-      padding: 0.45rem 0.75rem;
-      border-radius: 0.45rem;
-    }
-
     .text-danger {
       font-size: 0.8rem;
       margin-top: 0.25rem;
-    }
-
-    .registration-footer {
-      padding: 1rem 2rem;
-      background-color: #f8f9fa;
-      border-top: 1px solid #dee2e6;
-      text-align: right;
     }
 
     .btn-cancel, .btn-register {
@@ -90,24 +70,20 @@
       color: #fff;
     }
 
-    .btn-register {
-      background-color: #198754;
-      color: #fff;
+    .btn-warning {
+      background: #0d67c7 ;
+      border: none;
+      color: white;
+    }
+
+    .btn-dark {
+      background-color: #343a40;
     }
 
     @media (max-width: 768px) {
       .col-md-6 {
         width: 100%;
       }
-    }
-
-    .btn-warning {
-      background: linear-gradient(to right, #ff8c00, #ffb84d);
-      border: none;
-    }
-
-    .btn-dark {
-      background-color: #343a40;
     }
 
     .table td {
@@ -128,54 +104,74 @@
       <table class="table table-bordered align-middle">
         <tbody>
         {% for field in form %}
-          {% if forloop.counter0|divisibleby:2 %}
-          <tr>
-            <td style="width: 20%;">
-              <label class="form-label" for="{{ field.id_for_label }}">{{ field.label }}</label>
-            </td>
-            <td style="width: 30%;">
-              {% if field.name == "Contact_number" %}
+          {% if field.name != "photo" and field.name != "balance" %}
+            {% if forloop.counter0|divisibleby:2 %}
+            <tr>
+              <td style="width: 20%;">
+                <label class="form-label" for="{{ field.id_for_label }}">{{ field.label }}</label>
+              </td>
+              <td style="width: 30%;">
                 {{ field }}
-              {% else %}
+                {% if field.errors %}
+                <div class="text-danger">
+                  {% for error in field.errors %}{{ error }}{% endfor %}
+                </div>
+                {% endif %}
+              </td>
+            {% else %}
+              <td style="width: 20%;">
+                <label class="form-label" for="{{ field.id_for_label }}">{{ field.label }}</label>
+              </td>
+              <td style="width: 30%;">
                 {{ field }}
-              {% endif %}
-              {% if field.errors %}
-              <div class="text-danger">
-                {% for error in field.errors %}{{ error }}{% endfor %}
-              </div>
-              {% endif %}
-            </td>
-          {% else %}
-            <td style="width: 20%;">
-              <label class="form-label" for="{{ field.id_for_label }}">{{ field.label }}</label>
-            </td>
-            <td style="width: 30%;">
-              {{ field }}
-              {% if field.errors %}
-              <div class="text-danger">
-                {% for error in field.errors %}{{ error }}{% endfor %}
-              </div>
-              {% endif %}
-            </td>
-          </tr>
-          <tr>
-        {% endif %}
+                {% if field.errors %}
+                <div class="text-danger">
+                  {% for error in field.errors %}{{ error }}{% endfor %}
+                </div>
+                {% endif %}
+              </td>
+            </tr>
+            {% endif %}
+          {% endif %}
         {% endfor %}
-        {% if form|length|divisibleby:2 == False %}
-        <td colspan="2"></td></tr> 
-        {% endif %}
-        <td colspan="2" class="text-end pe-3">
-          <a href="{% url 'dashboard' %}" class="btn btn-dark px-4 me-2">Cancel</a>
-          <button type="submit" class="btn btn-warning text-white px-4">Register</button>
-        </td>
+
+        
+        <tr>
+          <td style="width: 20%;"><label class="form-label" for="{{ form.photo.id_for_label }}">{{ form.photo.label }}</label></td>
+          <td style="width: 30%;">
+            {{ form.photo }}
+            {% if form.photo.errors %}
+            <div class="text-danger">
+              {% for error in form.photo.errors %}{{ error }}{% endfor %}
+            </div>
+            {% endif %}
+          </td>
+          <td style="width: 20%;"><label class="form-label" for="{{ form.balance.id_for_label }}">{{ form.balance.label }}</label></td>
+          <td style="width: 30%;">
+            {{ form.balance }}
+            {% if form.balance.errors %}
+            <div class="text-danger">
+              {% for error in form.balance.errors %}{{ error }}{% endfor %}
+            </div>
+            {% endif %}
+          </td>
         </tr>
+
+       
+        <tr>
+          <td colspan="4" class="text-end">
+            <a href="{% url 'dashboard' %}" class="btn btn-dark px-4 me-2">Cancel</a>
+            <button type="submit" class="btn btn-warning px-4">Register</button>
+          </td>
+        </tr>
+
         </tbody>
       </table>
     </div>
   </form>
 </div>
 
-<!-- JavaScript for intl-tel-input -->
+
 <script src="https://cdnjs.cloudflare.com/ajax/libs/intl-tel-input/17.0.8/js/intlTelInput.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/intl-tel-input/17.0.8/js/utils.js"></script>
 <script>

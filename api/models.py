@@ -1,6 +1,7 @@
 from django.db import models
 from django.core.validators import (
     RegexValidator, MinLengthValidator, MaxLengthValidator, EmailValidator
+    
 )
 from datetime import date
 
@@ -43,10 +44,27 @@ class BankUser(models.Model):
             MaxLengthValidator(6, message="PIN can be at most 6 digits"),
         ]
     )
-    photo = models.ImageField(upload_to='user_photos/', null=True, blank=True) 
+    photo = models.ImageField(upload_to='user_photos/', null=True, blank=True)
+    
+    # ✅ Newly added field
+    balance = models.DecimalField(max_digits=12, decimal_places=2, default=0.00)
+
 
     class Meta:
         db_table = 'bankuser'
 
     def __str__(self):
         return f"{self.first_name} {self.last_name}"
+
+    class Meta:
+        db_table = 'bankuser'
+
+    def __str__(self):
+        return f"{self.first_name} {self.last_name}"
+    
+
+   
+
+
+
+
