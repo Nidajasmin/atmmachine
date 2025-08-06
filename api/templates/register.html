@@ -9,87 +9,103 @@
   <style>
     body {
       background: linear-gradient(to right, #e0eafc, #cfdef3);
-      min-height: 100vh;
-      padding: 30px 0;
+      height: 100vh;
+      margin: 0;
+      display: flex;
+      justify-content: center;
+      align-items: center;
       font-family: 'Segoe UI', sans-serif;
     }
 
     .registration-container {
-      max-width: 1000px;
-      margin: auto;
+      width: 820px;
       background-color: #ffffff;
-      border-radius: 12px;
-      box-shadow: 0 12px 30px rgba(0, 0, 0, 0.1);
+      border-radius: 10px;
+      box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
       overflow: hidden;
+      font-size: 0.8rem;
     }
 
     .registration-header {
-      background:  #0d67c7;
+      background: linear-gradient(90deg, #0d47a1, #1976d2);
       color: #fff;
-      padding: 1.5rem;
+      padding: 1rem;
       text-align: center;
-      font-size: 1.7rem;
+      font-size: 1.3rem;
       font-weight: 600;
-      letter-spacing: 1px;
     }
 
     .registration-body {
-      padding: 2rem;
+      padding: 1.2rem;
     }
 
     table.table td, table.table th {
+      padding: 6px 10px;
       vertical-align: middle;
-      padding: 10px 12px;
+    }
+
+    .form-label {
+      font-weight: 600;
+      font-size: 0.75rem;
+      margin-bottom: 0.3rem;
     }
 
     .form-control, .input-group-text {
-      width: 100%;
-      font-size: 0.9rem;
-    }
-
-    label.form-label {
-      margin-bottom: 0.4rem;
-      font-size: 0.85rem;
-      font-weight: 600;
+      font-size: 0.75rem;
+      height: 30px;
+      padding: 4px 8px;
+      border-radius: 6px;
     }
 
     .text-danger {
-      font-size: 0.8rem;
-      margin-top: 0.25rem;
+      font-size: 0.7rem;
     }
 
-    .btn-cancel, .btn-register {
-      padding: 0.5rem 1.5rem;
-      font-size: 0.95rem;
-      font-weight: 500;
-      border-radius: 8px;
-    }
-
-    .btn-cancel {
-      background-color: #6c757d;
-      color: #fff;
-    }
-
-    .btn-warning {
-      background: #0d67c7 ;
-      border: none;
-      color: white;
-    }
-
-    .btn-dark {
-      background-color: #343a40;
-    }
+    
 
     @media (max-width: 768px) {
-      .col-md-6 {
-        width: 100%;
+      .registration-container {
+        width: 95%;
       }
     }
 
-    .table td {
-      padding: 12px;
-      vertical-align: middle;
-    }
+.btn-cancel,
+.btn-register {
+  font-size: 0.75rem;
+  padding: 6px 18px;
+  border-radius: 6px;
+  font-weight: 600;
+  transition: all 0.3s ease;
+}
+
+/* Cancel Button */
+.btn-cancel {
+  background-color: #6c757d;
+  color: white;
+  border: none;
+}
+
+.btn-cancel:hover {
+  background-color: #6c757d;
+  color: white;
+  box-shadow: 0 0 6px rgba(0, 0, 0, 0.3);
+}
+
+/* Register Button */
+.btn-register {
+  background-color: #0d67c7;
+  color: white;
+  border: none;
+}
+
+.btn-register:hover {
+  background-color: #0d67c7;
+  color: white;
+  box-shadow: 0 0 6px rgba(13, 103, 199, 0.4);
+}
+
+
+
   </style>
 </head>
 <body>
@@ -98,79 +114,120 @@
     🏦 Bank User Registration
   </div>
 
-  <form method="post" enctype="multipart/form-data">
+  <form method="post" enctype="multipart/form-data" autocomplete="off">
     {% csrf_token %}
+
+    <input type="text" name="fake_last_name" autocomplete="family-name" style="position:absolute; top:-1000px; left:-1000px;" />
+  <input type="text" name="fake_card_number" autocomplete="cc-number" style="position:absolute; top:-1000px; left:-1000px;" />
+  <input type="password" name="fake_password" autocomplete="new-password" style="position:absolute; top:-1000px; left:-1000px;" />
     <div class="registration-body">
-      <table class="table table-bordered align-middle">
+      <table class="table table-bordered align-middle mb-0">
         <tbody>
         {% for field in form %}
-          {% if field.name != "photo" and field.name != "balance" %}
-            {% if forloop.counter0|divisibleby:2 %}
-            <tr>
-              <td style="width: 20%;">
-                <label class="form-label" for="{{ field.id_for_label }}">{{ field.label }}</label>
-              </td>
-              <td style="width: 30%;">
-                {{ field }}
-                {% if field.errors %}
-                <div class="text-danger">
-                  {% for error in field.errors %}{{ error }}{% endfor %}
-                </div>
-                {% endif %}
-              </td>
-            {% else %}
-              <td style="width: 20%;">
-                <label class="form-label" for="{{ field.id_for_label }}">{{ field.label }}</label>
-              </td>
-              <td style="width: 30%;">
-                {{ field }}
-                {% if field.errors %}
-                <div class="text-danger">
-                  {% for error in field.errors %}{{ error }}{% endfor %}
-                </div>
-                {% endif %}
-              </td>
-            </tr>
-            {% endif %}
-          {% endif %}
-        {% endfor %}
+  {% if field.name != "photo" and field.name != "balance" and field.name != "card_pin" and field.name != "confirm_pin" %}
 
-        
+    {% if field.name == "card_number" %}
+      <tr>
+        <td style="width: 20%;"><label class="form-label" for="{{ field.id_for_label }}">{{ field.label }}</label></td>
+        <td colspan="3">
+          {{ field }}
+          {% if field.errors %}
+            <div class="text-danger">
+              {% for error in field.errors %}{{ error }}{% endfor %}
+            </div>
+          {% endif %}
+        </td>
+      </tr>
+
+    {% elif field.name == "last_name" %}
+  <tr>
+    <td style="width: 20%;"><label class="form-label" for="{{ field.id_for_label }}">{{ field.label }}</label></td>
+    <td style="width: 30%;">
+      {{ field }}
+      {% if field.errors %}
+        <div class="text-danger">
+          {% for error in field.errors %}{{ error }}{% endfor %}
+        </div>
+      {% endif %}
+    </td>
+
+
+    {% elif forloop.counter0|divisibleby:2 %}
+      <tr>
+        <td style="width: 20%;"><label class="form-label" for="{{ field.id_for_label }}">{{ field.label }}</label></td>
+        <td style="width: 30%;">
+          {{ field }}
+          {% if field.errors %}
+            <div class="text-danger">
+              {% for error in field.errors %}{{ error }}{% endfor %}
+            </div>
+          {% endif %}
+        </td>
+
+    {% else %}
+        <td style="width: 20%;"><label class="form-label" for="{{ field.id_for_label }}">{{ field.label }}</label></td>
+        <td style="width: 30%;">
+          {{ field }}
+          {% if field.errors %}
+            <div class="text-danger">
+              {% for error in field.errors %}{{ error }}{% endfor %}
+            </div>
+          {% endif %}
+        </td>
+      </tr>
+    {% endif %}
+
+  {% endif %}
+{% endfor %}
+
+        <!-- Card PIN and Confirm PIN -->
         <tr>
-          <td style="width: 20%;"><label class="form-label" for="{{ form.photo.id_for_label }}">{{ form.photo.label }}</label></td>
-          <td style="width: 30%;">
+          <td><label class="form-label" for="{{ form.card_pin.id_for_label }}">{{ form.card_pin.label }}</label></td>
+          <td>
+            {{ form.card_pin }}
+            {% if form.card_pin.errors %}
+              <div class="text-danger">{% for error in form.card_pin.errors %}{{ error }}{% endfor %}</div>
+            {% endif %}
+          </td>
+          <td><label class="form-label" for="{{ form.confirm_pin.id_for_label }}">{{ form.confirm_pin.label }}</label></td>
+          <td>
+            {{ form.confirm_pin }}
+            {% if form.confirm_pin.errors %}
+              <div class="text-danger">{% for error in form.confirm_pin.errors %}{{ error }}{% endfor %}</div>
+            {% endif %}
+          </td>
+        </tr>
+
+        <!-- Photo and Balance -->
+        <tr>
+          <td><label class="form-label" for="{{ form.photo.id_for_label }}">{{ form.photo.label }}</label></td>
+          <td>
             {{ form.photo }}
             {% if form.photo.errors %}
-            <div class="text-danger">
-              {% for error in form.photo.errors %}{{ error }}{% endfor %}
-            </div>
+              <div class="text-danger">{% for error in form.photo.errors %}{{ error }}{% endfor %}</div>
             {% endif %}
           </td>
-          <td style="width: 20%;"><label class="form-label" for="{{ form.balance.id_for_label }}">{{ form.balance.label }}</label></td>
-          <td style="width: 30%;">
+          <td><label class="form-label" for="{{ form.balance.id_for_label }}">{{ form.balance.label }}</label></td>
+          <td>
             {{ form.balance }}
             {% if form.balance.errors %}
-            <div class="text-danger">
-              {% for error in form.balance.errors %}{{ error }}{% endfor %}
-            </div>
+              <div class="text-danger">{% for error in form.balance.errors %}{{ error }}{% endfor %}</div>
             {% endif %}
           </td>
         </tr>
 
-       
+        <!-- Buttons -->
         <tr>
           <td colspan="4" class="text-end">
-            <a href="{% url 'dashboard' %}" class="btn btn-dark px-4 me-2">Cancel</a>
-            <button type="submit" class="btn btn-warning px-4">Register</button>
+            <a href="{% url 'dashboard' %}" class="btn btn-cancel me-2">Cancel</a>
+            <button type="submit" class="btn btn-register">Register</button>
           </td>
         </tr>
-
         </tbody>
       </table>
     </div>
   </form>
 </div>
-
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/intl-tel-input/17.0.8/js/intlTelInput.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/intl-tel-input/17.0.8/js/utils.js"></script>
@@ -192,5 +249,35 @@
     });
   });
 </script>
+<!-- #adhar -->
+<script>
+  document.addEventListener("DOMContentLoaded", function () {
+    const aadhaarInput = document.querySelector("#id_aadhaar_number");
+
+    if (aadhaarInput) {
+      function formatAadhaar(input) {
+        const digits = input.replace(/\D/g, '').substring(0, 12);
+        return digits.replace(/(\d{4})(\d{4})(\d{0,4})/, function (_, a, b, c) {
+          return [a, b, c].filter(Boolean).join(" ");
+        });
+      }
+
+      // ✅ Format Aadhaar value when page loads
+      aadhaarInput.value = formatAadhaar(aadhaarInput.value);
+
+      // ✅ Format Aadhaar while typing
+      aadhaarInput.addEventListener("input", function () {
+        aadhaarInput.value = formatAadhaar(aadhaarInput.value);
+      });
+    }
+  });
+</script>
+
+
+
+
+
+
+
 </body>
 </html>

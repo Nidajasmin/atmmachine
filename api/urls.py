@@ -20,6 +20,8 @@ urlpatterns = [
     path('atm/balance/', views.check_balance, name='check_balance'),
     path('atm/deposit/', views.deposit, name='deposit'),
     path('atm/withdraw/', views.withdraw, name='withdraw'),
+    path('atm/transaction/', views.transaction, name='transaction'),
+
     path('atm/thankyou/', views.thank_you, name='thank_you'),
 ]
 

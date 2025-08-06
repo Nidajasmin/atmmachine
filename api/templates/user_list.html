@@ -94,7 +94,8 @@
     }
 
     .btn-back:hover {
-      background-color: #094f98;
+      background-color: #2282e9;
+      color: white;
     }
 
     .alert {
@@ -125,13 +126,16 @@
   </div>
 
   {% if messages %}
-    {% for message in messages %}
+  {% for message in messages %}
+    {% if message.tags != "error" %}
       <div class="alert alert-{{ message.tags }} alert-dismissible fade show" role="alert">
         {{ message }}
         <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
       </div>
-    {% endfor %}
-  {% endif %}
+    {% endif %}
+  {% endfor %}
+{% endif %}
+
 
   <div class="table-responsive">
     <table class="table table-bordered table-hover align-middle">

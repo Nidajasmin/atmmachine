@@ -1,4 +1,4 @@
-{% load static %}
+{% include 'style.html' %}
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -6,171 +6,165 @@
   <title>Insert ATM Card</title>
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
-  <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css" rel="stylesheet">
-
   <style>
     body {
-      background-color: #f5f8fc;
-      min-height: 100vh;
+      background: linear-gradient(to right, #e0eafc, #cfdef3);
+      height: 100vh;
+      margin: 0;
       display: flex;
-      align-items: center;
       justify-content: center;
+      align-items: center;
       font-family: 'Segoe UI', sans-serif;
-      padding: 20px;
     }
 
-    .atm-container {
-      background: #ffffff;
-      border-radius: 14px;
-      box-shadow: 0 8px 28px rgba(0, 0, 0, 0.08);
-      display: flex;
-      flex-wrap: wrap;
-      overflow: hidden;
-      max-width: 720px; /* reduced from 950px */
+    .card-wrapper {
+      background-color: #ffffff;
       width: 100%;
+      max-width: 960px;
+      display: flex;
+      border-radius: 14px;
+      box-shadow: 0 12px 40px rgba(0, 0, 0, 0.1);
+      overflow: hidden;
     }
 
-    .atm-left {
-      background: linear-gradient(to bottom right, #004080, #007bff);
-      color: #fff;
-      padding: 30px 24px;
-      flex: 1 1 45%; /* reduced proportion */
+    .info-panel {
+      background: linear-gradient(to bottom, #004080, #007bff);
+      color: white;
+      padding: 50px 30px;
+      width: 45%;
       display: flex;
       flex-direction: column;
       justify-content: center;
     }
 
-    .atm-left h2 {
-      font-size: 1.4rem;
-      font-weight: 600;
-      margin-bottom: 8px;
-    }
-
-    .atm-left p {
-      font-size: 0.9rem;
-      line-height: 1.4;
-      opacity: 0.9;
-    }
-
-    .atm-right {
-      flex: 1 1 55%;
-      padding: 30px 24px;
-    }
-
-    .atm-header {
-      font-size: 1.2rem;
-      font-weight: 600;
+    .info-panel h2 {
+      font-size: 2rem;
+      font-weight: 700;
       margin-bottom: 20px;
-      color: #333;
-      display: flex;
-      align-items: center;
-      gap: 8px;
     }
 
-    .btn-submit {
-      background-color: #0379da;
-      color: white;
-      font-weight: 600;
-      padding: 10px;
+    .info-panel p {
+      font-size: 1rem;
+      opacity: 0.95;
+      margin-bottom: 10px;
+    }
+
+    .form-panel {
+      padding: 40px 30px;
+      width: 55%;
+      background-color: #f9fafd;
+    }
+
+    .form-title {
+      font-size: 1.5rem;
+      font-weight: 700;
+      margin-bottom: 10px;
+      color: #0d47a1;
+    }
+
+    .form-caption {
       font-size: 0.95rem;
-      width: 100%;
-      border: none;
-      border-radius: 6px;
-      margin-top: 18px;
+      color: #555;
+      margin-bottom: 25px;
     }
 
-    .btn-submit:hover {
-      background-color: #025db3;
-    }
-
-    .btn-cancel {
-      display: block;
-      text-align: center;
-      margin-top: 10px;
-      color: #6c757d;
-      font-size: 0.9rem;
-      text-decoration: none;
-    }
-
-    .form-label {
+    label {
       font-weight: 500;
-      font-size: 0.9rem;
-      margin-bottom: 0.4rem;
+      font-size: 0.85rem;
+      margin-bottom: 5px;
     }
 
     .form-control {
-      padding: 8px 12px;
-      border-radius: 6px;
-      font-size: 0.95rem;
+      border-radius: 8px;
+      padding: 10px;
+      margin-bottom: 20px;
+      font-size: 0.85rem;
+    }
+
+    .btn-proceed {
+      background-color: #0d67c7;
+      color: #fff;
+      font-weight: 600;
+      padding: 10px;
+      width: 100%;
+      border-radius: 8px;
+      border: none;
+      transition: background 0.3s;
+    }
+
+    .btn-proceed:hover {
+      background-color: #0a7fed;
+      color: #cfdef3;
+    }
+
+    .btn-cancel {
+      display: inline-block;
+      text-align: center;
+      margin-top: 15px;
+      color: #6c757d;
+      text-decoration: none;
+      font-weight: 500;
+      font-size: 0.85rem;
     }
 
     .alert {
-      margin-top: 18px;
-      font-size: 0.9rem;
+      font-size: 0.85rem;
     }
 
     @media (max-width: 768px) {
-      .atm-container {
+      .card-wrapper {
         flex-direction: column;
-        max-width: 95%;
+        max-width: 90%;
       }
 
-      .atm-left, .atm-right {
-        flex: 1 1 100%;
-        padding: 24px 20px;
-      }
-
-      .atm-left h2 {
-        font-size: 1.2rem;
-      }
-
-      .atm-left p {
-        font-size: 0.85rem;
-      }
-
-      .atm-header {
-        font-size: 1rem;
+      .info-panel, .form-panel {
+        width: 100%;
+        padding: 30px 20px;
       }
     }
   </style>
 </head>
 <body>
 
-<div class="atm-container">
-  <div class="atm-left">
-    <h2><i class="bi bi-credit-card-fill"></i> Net Bank ATM</h2>
-    <p>Securely access your account and perform banking transactions. Insert your ATM card and enter your PIN to continue.</p>
+<div class="card-wrapper">
+  <div class="info-panel">
+    <h2>💳 Welcome to Net Bank ATM</h2>
+    <p>You're entering a secure ATM session.</p>
+    <p>Kindly insert your card number and PIN to proceed with your transactions.</p>
+    <p class="mt-3"><small>Need help? Contact support at <strong>1800-123-456</strong></small></p>
   </div>
 
-  <div class="atm-right">
-    <div class="atm-header"><i class="bi bi-shield-lock-fill text-primary"></i> Card Authentication</div>
+  <div class="form-panel">
+    <div class="form-title">Insert Your ATM Card</div>
+    <div class="form-caption">Please enter your card details below to begin.</div>
 
-    <form method="POST">
+    <form method="POST" autocomplete="off">
       {% csrf_token %}
+      {{ form.non_field_errors }}
 
       <div class="mb-3">
-        <label class="form-label" for="id_card_number">Card Number</label>
-        <input type="text" name="card_number" id="id_card_number" class="form-control" value="{{ form.card_number.value|default_if_none:'' }}">
-        {% if form.card_number.errors %}
-          <div class="text-danger small">{{ form.card_number.errors.0 }}</div>
-        {% endif %}
+        {{ form.card_number.label_tag }}
+        {{ form.card_number }}
+        {% for error in form.card_number.errors %}
+          <div class="text-danger">{{ error }}</div>
+        {% endfor %}
       </div>
 
       <div class="mb-3">
-        <label class="form-label" for="id_card_pin">ATM PIN</label>
-        <input type="password" name="card_pin" id="id_card_pin" class="form-control" value="{{ form.card_pin.value|default_if_none:'' }}">
-        {% if form.card_pin.errors %}
-          <div class="text-danger small">{{ form.card_pin.errors.0 }}</div>
-        {% endif %}
+        {{ form.pin.label_tag }}
+        {{ form.pin }}
+        {% for error in form.pin.errors %}
+          <div class="text-danger">{{ error }}</div>
+        {% endfor %}
       </div>
 
-      <button type="submit" class="btn btn-submit">Proceed Securely</button>
-      <a href="{% url 'dashboard' %}" class="btn-cancel">← Cancel</a>
+      <button type="submit" class="btn btn-proceed">Continue</button>
+      <a href="{% url 'dashboard' %}" class="btn-cancel">← Back to Dashboard</a>
     </form>
 
     {% if messages %}
       {% for msg in messages %}
-        <div class="alert alert-danger">{{ msg }}</div>
+        <div class="alert alert-danger mt-3">{{ msg }}</div>
       {% endfor %}
     {% endif %}
   </div>

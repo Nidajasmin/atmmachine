@@ -11,9 +11,9 @@ class BankUser(models.Model):
     last_name = models.CharField(max_length=20)
     dob = models.DateField()
     account_number = models.CharField(
-        max_length=20,
+        max_length=12,
         unique=True,
-        validators=[RegexValidator(r'^\d{10,20}$', 'Account number must be 10-20 digits')]
+        validators=[RegexValidator(r'^\d{10,12}$', 'Account number must be 12 digits')]
     )
     branch = models.CharField(max_length=50)
     ifsc = models.CharField(
@@ -48,6 +48,7 @@ class BankUser(models.Model):
     
     # ✅ Newly added field
     balance = models.DecimalField(max_digits=12, decimal_places=2, default=0.00)
+    pin = models.CharField(max_length=6,default='0000')
 
 
     class Meta:

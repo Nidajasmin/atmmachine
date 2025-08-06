@@ -11,101 +11,110 @@
 
   <style>
     body {
-      background-color: #f2f6ff;
+      background: linear-gradient(to right, #e3f2fd, #f8fbff);
       font-family: 'Segoe UI', sans-serif;
       margin: 0;
       padding: 0;
     }
 
     .header {
-      background-color: #0d47a1;
-      padding: 20px 40px;
+      background: linear-gradient(to right, #1565c0, #1e88e5);
+      padding: 30px 50px;
       color: white;
-      box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
     }
 
     .header h1 {
-      font-size: 1.8rem;
+      font-size: 2rem;
       margin: 0;
-      font-weight: 600;
+      font-weight: bold;
     }
 
     .content {
       max-width: 1200px;
-      margin: 50px auto;
+      margin: 60px auto;
       padding: 0 20px;
     }
 
     .dashboard-title {
       text-align: center;
-      font-size: 2rem;
-      font-weight: bold;
+      font-size: 2.2rem;
+      font-weight: 700;
       color: #0d47a1;
-      margin-bottom: 20px;
+      margin-bottom: 10px;
     }
 
     .dashboard-desc {
       text-align: center;
+      color: #666;
       font-size: 1.1rem;
-      color: #555;
       margin-bottom: 40px;
-    }
-
-    .card-box {
-      background: white;
-      border-radius: 12px;
-      padding: 30px;
-      text-align: center;
-      box-shadow: 0 8px 25px rgba(0, 0, 0, 0.08);
-      transition: 0.3s ease;
-    }
-
-    .card-box:hover {
-      transform: translateY(-5px);
-      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
-    }
-
-    .card-box i {
-      font-size: 2rem;
-      color: #0d47a1;
-      margin-bottom: 15px;
-    }
-
-    .card-box h4 {
-      font-weight: 600;
-      margin-bottom: 10px;
-      color: #0d47a1;
-    }
-
-    .card-box p {
-      color: #555;
-      font-size: 0.95rem;
-      margin-bottom: 20px;
-    }
-
-    .btn-dashboard {
-      background-color: #0d47a1;
-      color: white;
-      border: none;
-      padding: 10px 22px;
-      border-radius: 8px;
-      font-weight: 600;
-      transition: 0.3s ease;
-    }
-
-    .btn-dashboard:hover {
-      background-color: #003c8f;
     }
 
     .grid {
       display: grid;
       gap: 30px;
-      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    }
+
+    .card-box {
+      background-color: #ffffff;
+      border: 1px solid #e0e0e0;
+      border-radius: 14px;
+      padding: 30px 20px;
+      text-align: center;
+      transition: 0.3s ease-in-out;
+      box-shadow: 0 6px 16px rgba(0, 0, 0, 0.06);
+    }
+
+    .card-box:hover {
+      transform: translateY(-4px);
+      box-shadow: 0 12px 24px rgba(21, 101, 192, 0.15);
+    }
+
+    .card-box i {
+      font-size: 2.7rem;
+      color: #1e88e5;
+      margin-bottom: 16px;
+    }
+
+    .card-box h4 {
+      font-weight: 700;
+      font-size: 1.3rem;
+      color: #0d47a1;
+      margin-bottom: 10px;
+    }
+
+    .card-box p {
+      color: #444;
+      font-size: 0.95rem;
+      margin-bottom: 20px;
+    }
+
+    .btn-dashboard {
+      background-color: #1e88e5;
+      color: #fff;
+      border: none;
+      padding: 10px 24px;
+      border-radius: 30px;
+      font-weight: 600;
+      font-size: 0.9rem;
+      transition: all 0.3s ease;
+      box-shadow: 0 4px 10px rgba(30, 136, 229, 0.2);
+    }
+
+    .btn-dashboard:hover {
+      background-color: #1565c0;
+      color: #fff;
+      transform: scale(1.05);
     }
 
     @media (max-width: 576px) {
       .dashboard-title {
-        font-size: 1.5rem;
+        font-size: 1.6rem;
+      }
+      .header {
+        padding: 20px;
       }
     }
   </style>
@@ -118,29 +127,27 @@
 
   <div class="content">
     <div class="dashboard-title">Welcome to Net Bank</div>
-    <div class="dashboard-desc">
-      Easily manage customers and access banking operations in one place.
-    </div>
+    <div class="dashboard-desc">Manage users and banking services efficiently from one platform.</div>
 
     <div class="grid">
       <div class="card-box">
         <i class="bi bi-person-plus-fill"></i>
         <h4>Register User</h4>
-        <p>Add new bank users quickly and securely.</p>
+        <p>Add new customers easily with our registration system.</p>
         <a href="{% url 'register_user' %}" class="btn btn-dashboard">Go</a>
       </div>
 
       <div class="card-box">
         <i class="bi bi-credit-card-2-front-fill"></i>
         <h4>ATM Payment</h4>
-        <p>Access ATM features: Withdraw, Deposit, Check Balance.</p>
+        <p>Perform ATM tasks like deposits, withdrawals, and balance checks.</p>
         <a href="{% url 'payment' %}" class="btn btn-dashboard">Go</a>
       </div>
 
       <div class="card-box">
         <i class="bi bi-people-fill"></i>
         <h4>View Customers</h4>
-        <p>See all registered users and account details.</p>
+        <p>View all registered users and account data in one place.</p>
         <a href="{% url 'user_list' %}" class="btn btn-dashboard">Go</a>
       </div>
     </div>
