@@ -136,11 +136,7 @@ class BankUserForm(forms.ModelForm):
                 'class': 'form-control', 'placeholder': 'Enter your first name',
                 'autocomplete':"off"
             }),
-            'last_name': forms.TextInput(attrs={
-            'class': 'form-control',
-             'placeholder': 'Enter your last name',
-             'autocomplete': 'off-last-name'
-            }),
+            
            
             'dob': forms.DateInput(attrs={
                 'type': 'date', 'class': 'form-control'
