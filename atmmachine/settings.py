@@ -23,11 +23,16 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = 'django-insecure-8c=2l7e*3ta&=q&x7-at0-j$)6@r-ia%%qsxrun1r3t8=q6t&$'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+import os
 
-ALLOWED_HOSTS = []
+BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
+DEBUG = False
 
+ALLOWED_HOSTS = ['16.16.56.218', 'localhost', '127.0.0.1']
+
+STATIC_URL = '/static/'
+STATIC_ROOT = os.path.join(BASE_DIR, 'static')
 # Application definition
 
 INSTALLED_APPS = [
@@ -60,6 +65,7 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'whitenoise.middleware.WhiteNoiseMiddleware',
 ]
 
 ROOT_URLCONF = 'atmmachine.urls'
@@ -111,13 +117,8 @@ AUTH_PASSWORD_VALIDATORS = [
     },
 ]
 
-DEBUG = False
-ALLOWED_HOSTS = ['atm-project-nida.onrender.com']
 
-import os
 
-STATIC_URL = '/static/'
-STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
 
 # Internationalization
 # https://docs.djangoproject.com/en/5.2/topics/i18n/
@@ -140,3 +141,7 @@ STATIC_URL = 'static/'
 # https://docs.djangoproject.com/en/5.2/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+DEBUG = False
+ALLOWED_HOSTS = ['16.16.56.218', 'localhost', '127.0.0.1']
+STATIC_ROOT = os.path.join(BASE_DIR, 'static/')
