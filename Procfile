@@ -1,2 +1,1 @@
-web: gunicorn atmmachine.wsgi:application
-
+web: gunicorn atmmachine.wsgi
