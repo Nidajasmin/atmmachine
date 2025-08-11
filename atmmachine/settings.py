@@ -27,7 +27,7 @@ import os
 
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
-DEBUG = False
+DEBUG = True
 
 ALLOWED_HOSTS = ['16.16.56.218', 'localhost', '127.0.0.1']
 
@@ -49,11 +49,14 @@ INSTALLED_APPS = [
 
 
 
+from pathlib import Path
 import os
 
-# Add at the end of settings.py
+BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+
 MEDIA_URL = '/media/'
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
+
 
 
 
@@ -142,6 +145,3 @@ STATIC_URL = 'static/'
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
-DEBUG = False
-ALLOWED_HOSTS = ['16.16.56.218', 'localhost', '127.0.0.1']
-STATIC_ROOT = os.path.join(BASE_DIR, 'static/')
