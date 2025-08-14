@@ -3,6 +3,54 @@ from django.contrib import messages
 from decimal import Decimal
 from .forms import BankUserForm,InsertCardForm,TransactionForm 
 from .models import BankUser
+from rest_framework import  permissions,status
+from .serializers import BankUserSerializer
+from rest_framework.permissions import IsAdminUser, AllowAny
+from rest_framework.authentication import TokenAuthentication
+from rest_framework.response import Response
+from rest_framework.views import APIView
+from rest_framework.authtoken.models import Token
+from django.contrib.auth import authenticate
+from rest_framework import permissions, status
+
+class AdminLoginView(APIView):
+    permission_classes = [permissions.AllowAny]
+
+    def post(self, request):
+        username = request.data.get("username")
+        password = request.data.get("password")
+        user = authenticate(request, username=username, password=password)
+
+        if user and user.is_superuser:
+            # Return a token so React can use it for future requests
+            from rest_framework.authtoken.models import Token
+            token, _ = Token.objects.get_or_create(user=user)
+            return Response({
+                "message": "Login successful",
+                "token": token.key
+            }, status=status.HTTP_200_OK)
+
+        return Response({"error": "Invalid credentials or not an admin"},
+                        status=status.HTTP_401_UNAUTHORIZED)
+
+class BankUserListView(APIView):
+    permission_classes = [permissions.IsAdminUser]
+
+    def get(self, request):
+        users = BankUser.objects.all()
+        serializer = BankUserSerializer(users, many=True, context={'request': request})
+        return Response(serializer.data)
+
+
+class BankUserDetailView(APIView):
+    permission_classes = [permissions.IsAdminUser]
+
+    def get(self, request, pk):
+        user = get_object_or_404(BankUser, pk=pk)
+        serializer = BankUserSerializer(user)
+        return Response(serializer.data)
+
+
 
 
 def dashboard(request):
